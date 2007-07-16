@@ -20,7 +20,7 @@
 				<h3>Support</h3>
 				
 				<p class="news">
-					daloRADIUS version svn-trnk
+					daloRADIUS version 0.9 - Otto
 					RADIUS Management 
 					<a href="http://www.enginx.com" class="more">Read More &raquo;</a>
 				</p>
