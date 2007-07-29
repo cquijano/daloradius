@@ -2,7 +2,7 @@ Copyright Liran Tal 2007. All rights reserved.
 For release information and license, read LICENSE.
 
 
-   daloRADIUS version 0.9 stable release
+   daloRADIUS version 0.9-1 stable release
   by Liran Tal of Enginx <liran@enginx.com>
  ===========================================
 
@@ -22,7 +22,24 @@ About
 
 
 
+Release Notes
+=============
 
+ 0.9-1 version mark some very big changes in the concept of how daloRADIUS is
+ working from the developer point of view - alot of the code has been reduced
+ and duplicates have been almost completely removed in order to move to a very
+ dynamic code which is later adoptable easily by other developers and to
+ allow comfortable addition of features upon existing codes without having
+ constraints of some sort.
+
+ Some of the important features and changes introduced are:
+
+  * Dynamic support for attributes when adding/editing users
+  * Logging capabilities allow three levels of logging facilities
+  * Language support (a more complete version)
+  * Introduced new interface configuration pages
+
+ 
 
 Credits
 =======

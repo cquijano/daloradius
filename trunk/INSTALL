@@ -2,11 +2,19 @@ Copyright Liran Tal 2007. All rights reserved.
 For release information and license, read LICENSE.
 
 
-  daloRADIUS version 0.9 stable release
+  daloRADIUS version 0.9-1 stable release
  by Liran Tal of Enginx <liran@enginx.com>
  =========================================
 
 
+Release Notes
+=============
+
+ 0.9-1 version includes more options in the configuration file so be
+ sure to check them if you decide to edit the file manually rather
+ than using the web interface.
+ 
+ 
 
 Prerequisites
 =============
@@ -70,6 +78,12 @@ Installation
 	
 	The chmod command is for having the daloradius.conf configuration file 
 	writable by the webserver for easy administration from the Web interface.
+
+	
+	NOTE: Another copy of the default daloradius.conf file is provided now named
+		  daloradius.conf.sample which you can use as a reference because it provides
+		  some comments inside it to explain the various options.
+
 
 
  DATABASE SETUP
