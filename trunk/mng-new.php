@@ -13,7 +13,6 @@
 	if (isset($_POST['submit'])) {
 		$username = $_POST['username'];
 		$password = $_POST['password'];
-        $passwordtype = $_POST['passwordType'];	
 		$expiration = $_POST['expiration'];
 
 		include 'library/opendb.php';
@@ -26,7 +25,7 @@
 			if (trim($username) != "" and trim($password) != "") {
 
 				// insert username/password
-				$sql = "insert into ".$configValues['CONFIG_DB_TBL_RADCHECK']." values (0, '$username', '$passwordtype', '==', '$password')";
+				$sql = "insert into ".$configValues['CONFIG_DB_TBL_RADCHECK']." values (0, '$username', 'User-Password', '==', '$password')";
 				$res = mysql_query($sql) or die('<font color="#FF0000"> Query failed: ' . mysql_error() . "</font>");
 	
 				// insert expiration
@@ -36,7 +35,7 @@
 				}
 			
 				 foreach( $_POST as $attribute=>$value ) { 
-					if ( ($attribute == "username") || ($attribute == "password") || ($attribute == "passwordType") || ($attribute == "expiration") || ($attribute == "submit") )	
+					if ( ($attribute == "username") || ($attribute == "password") || ($attribute == "expiration") || ($attribute == "submit") )	
 						continue; // we skip these post variables as they are not important
 
 					if (!($value[0]))
@@ -126,18 +125,6 @@
 </td><td>
 						<input value="<?php echo $username ?>" name="username"/>
 <a href="javascript:randomUsername()"> genuser</a><br/>
-
-<a href="javascript:toggleShowDiv('showPasswordType')">advanced</a><br/>
-<div id="showPasswordType" style="display:none;visibility:visible" >
-<br/>
-<input type="radio" name="passwordType" value="User-Password" checked>User-Password<br>
-<input type="radio" name="passwordType" value="Chap-Password">Chap-Password<br>
-<input type="radio" name="passwordType" value="Cleartext-Password">Cleartext-Password<br>
-<input type="radio" name="passwordType" value="Crypt-Password">Crypt-Password<br>
-<input type="radio" name="passwordType" value="MD5-Password">MD5-Password<br>
-<input type="radio" name="passwordType" value="SHA1-Password">SHA1-Password<br>
-</div>
-
 
 						</font>
 </td></tr>
