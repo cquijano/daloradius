@@ -15,7 +15,7 @@ echo "
 <br/>
 <center>
 <h2> daloRADIUS Web Management Server </h2>
-<h3> version svn-trunk </h3>
+<h3> version 0.9-1 - Otto </h3>
 <br/><br/>
 <h4> Liran Tal <br/>
      liran@enginx.com  <br/>
