@@ -1,4 +1,4 @@
-release 0.9-3 - September 01 2007
+release 0.9-3 - September 09 2007
 	- fixed bug 1763605 - user edit hat a wrong mysql syntax
 	- fixed bugs in configuration pages.
 	- added support for php's database abstraction layer instead of mysql API.
