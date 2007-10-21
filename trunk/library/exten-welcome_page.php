@@ -13,7 +13,7 @@ echo "
 <center>
 
 <h2> daloRADIUS Web Management Server </h2>
-<h3> version svn-trunk </h3>
+<h3> version 0.9-4 </h3>
 <h4> <a href=\"mailto:liran.tal@gmail.com\"> Liran Tal </a> </h4>
 <br/><br/><br/>
 <img src='images/daloradius_logo.jpg' border=0 />
