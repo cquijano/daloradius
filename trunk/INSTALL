@@ -114,15 +114,15 @@ Installation
  --------------
     If you are working with FreeRADIUS and MySQL already then you
     probably have the radius database and corrosponding tables
-    loaded up in MySQL. 
-    If this is the case, you may use the daloradius.sql file to 
+    loaded up in MySQL.
+    If this is the case, you may use the mysql-daloradius.sql file to 
     load the other tables that daloRADIUS makes use of into the
     radius database.
 
     Incase that you do not have FreeRADIUS installed or haven't
-    installed the radius database on your MySQL system then I
-    have provided you with a sample file of my own test system
-    that you can play with.
+    installed the radius database on your MySQL system that came
+    with the FreeRADIUS package then I have provided you have provided 
+    you with a sample file of my own test system that you can play with.
 
 
     If you have FreeRADIUS and MySQL with the radius database:
@@ -130,10 +130,15 @@ Installation
 	cd /var/www/daloradius/contrib/db
 	mysql -u root -p radius < mysql-daloradius.sql
 
+
+
     If you DONT HAVE the radius database in MySQL:
 
 	cd /var/www/daloradius/contrib/db
 	mysqladmin create radius
+	mysql -u root -p radius < mysql-daloradius-and-freeradius.sql
+
+    OR if you wou want to import some sample data also into the database
 	mysql -u root -p radius < mysql-daloradius-sample-data.sql
 
 
