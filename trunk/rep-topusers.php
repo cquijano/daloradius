@@ -1,0 +1,177 @@
+<?php
+/*
+ *********************************************************************************************************
+ * daloRADIUS - RADIUS Web Platform
+ * Copyright (C) 2007 - Liran Tal <liran@enginx.com> All Rights Reserved.
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+ *
+ *********************************************************************************************************
+*
+ * Authors:	Liran Tal <liran@enginx.com>
+ *
+ *********************************************************************************************************
+ */
+
+    include ("library/checklogin.php");
+    $operator = $_SESSION['operator_user'];
+
+	include('library/check_operator_perm.php');
+
+
+	//setting values for the order by and order type variables
+	isset($_REQUEST['orderBy']) ? $orderBy = $_REQUEST['orderBy'] : $orderBy = "radacctid";
+	isset($_REQUEST['orderType']) ? $orderType = $_REQUEST['orderType'] : $orderType = "asc";	
+
+	if (isset($_REQUEST['limit']))
+		$limit = $_REQUEST['limit'];
+
+
+	include_once('library/config_read.php');
+    $log = "visited page: ";
+    $logQuery = "performed query for [$orderBy : $limit] on page: ";
+
+
+?>
+
+<?php
+
+    include ("menu-reports.php");
+
+?>	
+		
+		<div id="contentnorightbar">
+		
+		<h2 id="Intro"><a href="#" onclick="javascript:toggleShowDiv('helpPage')"><?php echo $l['Intro']['reptopusers.php']; ?>
+		<h144>+</h144></a></h2></a></h2>
+				
+
+		<div id="helpPage" style="display:none;visibility:visible" >
+			<?php echo $l['helpPage']['reptopusers']." ".$orderBy ?>
+			<br/>
+		</div>
+		<br/>
+
+<?php
+
+	include 'library/opendb.php';
+	include 'include/management/pages_common.php';		
+
+$sql = "SELECT distinct(radacct.UserName), ".$configValues['CONFIG_DB_TBL_RADACCT'].".FramedIPAddress, ".$configValues['CONFIG_DB_TBL_RADACCT'].".AcctStartTime, ".$configValues['CONFIG_DB_TBL_RADACCT'].".AcctStopTime,
+sum(".$configValues['CONFIG_DB_TBL_RADACCT'].".AcctSessionTime) as Time, sum(".$configValues['CONFIG_DB_TBL_RADACCT'].".AcctInputOctets) as Upload,sum(".$configValues['CONFIG_DB_TBL_RADACCT'].".AcctOutputOctets) as Download, ".$configValues['CONFIG_DB_TBL_RADACCT'].".AcctTerminateCause, ".$configValues['CONFIG_DB_TBL_RADACCT'].".NASIPAddress, sum(".$configValues['CONFIG_DB_TBL_RADACCT'].".AcctInputOctets+".$configValues['CONFIG_DB_TBL_RADACCT'].".AcctOutputOctets) as Bandwidth FROM ".$configValues['CONFIG_DB_TBL_RADACCT']." group by UserName order by $orderBy $orderType limit $limit";
+
+	$res = $dbSocket->query($sql);
+	$logDebugSQL = "";
+	$logDebugSQL .= $sql . "\n";
+
+	echo "<table border='0' class='table1'>\n";
+	echo "
+					<thead>
+							<tr>
+							<th colspan='10'>".$l['all']['Records']."</th>
+							</tr>
+					</thead>
+			";
+			
+	if ($orderType == "asc") {
+			$orderType = "desc";
+	} else  if ($orderType == "desc") {
+			$orderType = "asc";
+	}
+		
+	echo "<thread> <tr>
+		<th scope='col'> 
+		<br/>
+		<a class='novisit' href=\"" . $_SERVER['PHP_SELF'] . "?limit=$limit&orderBy=username&orderType=$orderType\">
+		".$l['all']['Username']." </a>
+		</th>
+		<th scope='col'>
+		<br/>
+		<a class='novisit' href=\"" . $_SERVER['PHP_SELF'] . "?limit=$limit&orderBy=framedipaddress&orderType=$orderType\">
+		".$l['all']['IPAddress']."</a>
+		</th>
+		<th scope='col'> 
+		<br/>
+		<a class='novisit' href=\"" . $_SERVER['PHP_SELF'] . "?limit=$limit&orderBy=acctstarttime&orderType=$orderType\">
+		".$l['all']['StartTime']."</a>
+		</th>
+		<th scope='col'> 
+		<br/>
+		<a class='novisit' href=\"" . $_SERVER['PHP_SELF'] . "?limit=$limit&orderBy=acctstoptime&orderType=$orderType\">
+		".$l['all']['StopTime']."</a>
+		</th>
+		<th scope='col'> 
+		<br/>
+		<a class='novisit' href=\"" . $_SERVER['PHP_SELF'] . "?limit=$limit&orderBy=acctsessiontime&orderType=$orderType\">
+		".$l['all']['TotalTime']."</a>
+		</th>
+		<th scope='col'> 
+		<br/>
+		<a class='novisit' href=\"" . $_SERVER['PHP_SELF'] . "?limit=$limit&orderBy=acctinputoctets&orderType=$orderType\">
+		".$l['all']['Upload']." (".$l['all']['Bytes'].")</a>
+		</th>
+		<th scope='col'> 
+		<br/>
+		<a class='novisit' href=\"" . $_SERVER['PHP_SELF'] . "?limit=$limit&orderBy=acctoutputoctets&orderType=$orderType\">
+		".$l['all']['Download']." (".$l['all']['Bytes'].")</a>
+		</th>
+		<th scope='col'> 
+		<br/>
+		<a class='novisit' href=\"" . $_SERVER['PHP_SELF'] . "?limit=$limit&orderBy=acctterminatecause&orderType=$orderType\">
+		".$l['all']['Termination']."</a>
+		</th>
+		<th scope='col'> 
+		<br/>
+		<a class='novisit' href=\"" . $_SERVER['PHP_SELF'] . "?limit=$limit&orderBy=nasipaddress&orderType=$orderType\">
+		".$l['all']['NASIPAddress']."</a>
+		</th>
+		</tr> </thread>";
+		
+	while($row = $res->fetchRow()) {
+		echo "<tr>
+				<td> $row[0] </td>
+				<td> $row[1] </td>
+				<td> $row[2] </td>
+				<td> $row[3] </td>
+				<td> ".time2str($row[4])."</td>
+				<td> ".toxbyte($row[5])."</td>
+				<td> ".toxbyte($row[6])."</td>
+				<td> $row[7] </td>
+				<td> $row[8] </td>
+		</tr>";
+	}
+	echo "</table>";
+
+	include 'library/closedb.php';
+?>
+
+
+
+<?php
+	include('include/config/logging.php');
+?>
+				
+		</div>
+		
+		<div id="footer">
+		
+								<?php
+        include 'page-footer.php';
+?>
+
+		
+		</div>
+		
+</div>
+</div>
+
+
+</body>
+</html>
